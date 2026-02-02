@@ -64,6 +64,31 @@
       margin: 0 auto;
     }
 
+    /* FILTER BAR */
+    .filters {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin: 1rem 0 2rem;
+    }
+
+    .filter-btn {
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      background: #fff;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: #000;
+      color: #fff;
+      border-color: #000;
+    }
+
     .gallery-section {
       margin-top: 2.5rem;
     }
@@ -92,8 +117,10 @@
       box-shadow: 0 16px 40px rgba(0,0,0,0.08);
     }
 
+    /* Force consistent image size everywhere */
     .card img {
-      aspect-ratio: 4 / 3;
+      width: 100%;
+      height: 220px;
       object-fit: cover;
     }
 
@@ -150,11 +177,21 @@
 
   <main>
 
+    <!-- FILTER MENU -->
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="landscape">Landscapes</button>
+      <button class="filter-btn" data-filter="ocean">Ocean</button>
+      <button class="filter-btn" data-filter="astro">Astrophotography</button>
+      <button class="filter-btn" data-filter="wildlife">Wildlife</button>
+      <button class="filter-btn" data-filter="abstract">Abstract</button>
+    </div>
+
     <!-- LANDSCAPES -->
     <section class="gallery-section">
       <h2 class="gallery-title">Landscapes</h2>
       <div class="grid">
-        <div class="card">
+        <div class="card" data-category="landscape">
           <a href="https://happyasleeroyphotoart.myshopify.com/products/osprey" target="_blank">
             <img src="images/osprey.jpg" alt="Osprey" />
           </a>
@@ -170,7 +207,7 @@
     <section class="gallery-section">
       <h2 class="gallery-title">Ocean</h2>
       <div class="grid">
-        <div class="card">
+        <div class="card" data-category="ocean">
           <a href="#" target="_blank">
             <img src="images/wave.jpg" alt="Ocean Wave" />
           </a>
@@ -186,7 +223,7 @@
     <section class="gallery-section">
       <h2 class="gallery-title">Astrophotography</h2>
       <div class="grid">
-        <div class="card">
+        <div class="card" data-category="astrophotography">
           <a href="#" target="_blank">
             <img src="images/aurora.jpg" alt="Aurora" />
           </a>
@@ -202,7 +239,7 @@
     <section class="gallery-section">
       <h2 class="gallery-title">Wildlife</h2>
       <div class="grid">
-        <div class="card">
+        <div class="card" data-category="wildlife">
           <a href="#" target="_blank">
             <img src="images/burnflow.jpg" alt="Burn Flow" />
           </a>
@@ -218,7 +255,7 @@
     <section class="gallery-section">
       <h2 class="gallery-title">Abstract</h2>
       <div class="grid">
-        <div class="card">
+        <div class="card" data-category="abstract">
           <a href="#" target="_blank">
             <img src="images/abstract1.jpg" alt="Abstract artwork" />
           </a>
@@ -240,5 +277,28 @@
   <footer>
     <p>© 2026 Happyasleeroy Photo Art</p>
   </footer>
+
+<script>
+  // Simple gallery filter
+  const buttons = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.card');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+
+      cards.forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
 </body>
 </html>
